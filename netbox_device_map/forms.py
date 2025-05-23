@@ -1,12 +1,10 @@
 from django import forms
-
 from dcim.models import DeviceRole, Device
 from ipam.models import VLANGroup, VLAN
-from utilities.forms import BootstrapMixin
 from utilities.forms.fields import DynamicModelChoiceField, DynamicModelMultipleChoiceField
 
 
-class DeviceMapFilterForm(BootstrapMixin, forms.Form):
+class DeviceMapFilterForm(forms.Form):
     vlan_group = DynamicModelChoiceField(
         queryset=VLANGroup.objects.all(),
         required=False,
@@ -32,6 +30,18 @@ class DeviceMapFilterForm(BootstrapMixin, forms.Form):
         initial=True
     )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for _, field in self.fields.items():
+            if not field.widget.attrs.get('class'):
+                field.widget.attrs['class'] = 'form-control'
+
 
 class ConnectedCpeForm(forms.Form):
     vlan = forms.ModelChoiceField(queryset=VLAN.objects.all(), required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for _, field in self.fields.items():
+            if not field.widget.attrs.get('class'):
+                field.widget.attrs['class'] = 'form-control'
