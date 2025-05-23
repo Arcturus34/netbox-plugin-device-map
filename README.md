@@ -6,7 +6,7 @@ A simple device map plugin with filtering criteria for NetBox
 
 ## Installation
 ### Requirements
-The plugin has been tested and confirmed works on NetBox versions from 3.2 to 3.5 and Python versions from 3.10 to 3.11.
+The plugin has been tested and confirmed works on NetBox version 4.2 and Python versions from 3.12.
 
 ### Steps
 
