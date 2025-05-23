@@ -21,12 +21,12 @@ def configure_leaflet_map(map_id: str, devices: dict[Device, LatLon], calculate_
     for device, position in devices.items():
         markers.append(dict(
             position=position,
-            icon=device.device_role.slug,
+            icon=device.role.slug,
             device=dict(
                 id=device.id,
                 name=device.name,
                 url=device.get_absolute_url(),
-                role=device.device_role.name
+                role=device.role.name
             )
         ))
         if calculate_connections:
