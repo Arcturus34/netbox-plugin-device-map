@@ -29,7 +29,7 @@ def configure_leaflet_map(map_id: str, devices: dict[Device, LatLon], calculate_
                 role=device.role.name
             )
         ))
-        if calculate_connections:
+        if calculate_connections in (True, None):
             for peer_device_id in get_connected_devices(device).values_list('id', flat=True).order_by():
                 if peer_position := device_id_to_latlon.get(peer_device_id):
                     connections.add(frozenset((position, peer_position)))
