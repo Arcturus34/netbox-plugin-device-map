@@ -2,6 +2,7 @@ from django import forms
 from dcim.models import DeviceRole, Device
 from ipam.models import VLANGroup, VLAN
 from utilities.forms.fields import DynamicModelChoiceField, DynamicModelMultipleChoiceField
+from utilities.forms import BOOLEAN_WITH_BLANK_CHOICES
 
 
 class DeviceMapFilterForm(forms.Form):
@@ -24,17 +25,23 @@ class DeviceMapFilterForm(forms.Form):
         label="Device roles",
         help_text="Display devices of only the specified device roles"
     )
-    calculate_connections = forms.BooleanField(
+    calculate_connections = forms.NullBooleanField(
         required=False,
+        initial=True,
         label="Calculate connections between devices",
-        initial=True
+        widget=forms.Select(
+            choices=BOOLEAN_WITH_BLANK_CHOICES
+        )
     )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for _, field in self.fields.items():
-            if not field.widget.attrs.get('class'):
-                field.widget.attrs['class'] = 'form-control'
+        for name, field in self.fields.items():
+            if not isinstance(field.widget, forms.CheckboxInput):
+                if not field.widget.attrs.get('class'):
+                    field.widget.attrs['class'] = 'form-control'
+                
+
 
 
 class ConnectedCpeForm(forms.Form):
