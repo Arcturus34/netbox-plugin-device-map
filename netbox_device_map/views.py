@@ -32,7 +32,6 @@ class MapView(PermissionRequiredMixin, View):
             devices = Device.objects.all().distinct()
             if device_roles := form.cleaned_data['device_roles']:
                 devices = devices.filter(role__in=device_roles)
-                print(f"Device roles are :{device_roles}")
 
             geolocated_devices = {d: coords for d in devices if (coords := get_device_location(d))}
             non_geolocated_devices = set(devices) - set(geolocated_devices.keys())
@@ -45,7 +44,7 @@ class MapView(PermissionRequiredMixin, View):
 
         return render(
             request, self.template_name,
-            context=dict(filter_form=self.form(initial=request.GET))
+            context=dict(filter_form=form)
         )
 
 
