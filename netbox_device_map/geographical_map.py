@@ -35,5 +35,4 @@ def configure_leaflet_map(map_id: str, devices: dict[Device, LatLon], calculate_
                     connections.add(frozenset((position, peer_position)))
 
     map_config.update(markers=markers, connections=[tuple(c) for c in connections])
-
     return map_config
